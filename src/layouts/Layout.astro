@@ -1,0 +1,84 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = "Fer | Desarrollador Web Fullstack", 
+  description = "Especializado en el ecosistema MERN y NestJS, con fuerte orientación al desarrollo Backend. Creación de APIs robustas y soluciones eficientes."
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-bg-dark text-gray-300 antialiased selection:bg-accent-purple/30 selection:text-white overflow-x-hidden">
+    <!-- Glow effects background -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+      <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-accent-purple/10 blur-[120px] animate-pulse-slow"></div>
+      <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-accent-cyan/10 blur-[120px] animate-pulse-slow" style="animation-delay: -4s;"></div>
+    </div>
+
+    <!-- Main Content Wrapper -->
+    <div class="relative z-10 flex flex-col min-h-screen">
+      <slot />
+    </div>
+
+    <!-- Intersection Observer for Scroll Animations -->
+    <script>
+      const initScrollReveal = () => {
+        const observerOptions = {
+          root: null,
+          rootMargin: '0px -10% -10% 0px',
+          threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, observerOptions);
+
+        const reveals = document.querySelectorAll('.reveal');
+        reveals.forEach(el => observer.observe(el));
+      };
+
+      // Run on initial load
+      document.addEventListener('DOMContentLoaded', initScrollReveal);
+      // Support standard script execution if DOM already loaded (common in Vite dev)
+      if (document.readyState === 'interactive' || document.readyState === 'complete') {
+        initScrollReveal();
+      }
+    </script>
+  </body>
+</html>
